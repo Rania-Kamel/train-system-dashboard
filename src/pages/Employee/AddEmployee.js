@@ -1,5 +1,8 @@
 import OCForm from '../../components/OCForm'
 import * as Yup from "yup";
+import { authorizedAPIs } from "../../API/axiosSetup";
+import { showAlert } from "../../Redux/actions/viewAlert";
+import { useDispatch } from "react-redux";
 
 
   
@@ -79,11 +82,11 @@ const inputs = [
   {
     id: "gender",
     validation: Yup.string()
-      .oneOf(["male", "female"])
+      .oneOf(["Male", "Female"])
       .required("gender is required"),
     options: [
-      { value: "male", label: "Male" },
-      { value: "female", label: "Female" },
+      { value: "Male", label: "Male" },
+      { value: "Female", label: "Female" },
     ],
     initialValue: "",
     label: "gender",
@@ -92,7 +95,7 @@ const inputs = [
 
   {
     id: "age",
-    validation: Yup.number().min(0).max(2).required("age is required"),
+    validation: Yup.number().required("age is required"),
     label: "age",
     type: "number",
     initialValue: '',
@@ -110,25 +113,23 @@ const inputs = [
 ];
 
 export default function AddEmployee() {
-  // const dispatch = useDispatch();
-  // const addEmployee = async (values , { resetForm }) => {
-  //   const birthdate = new Date(values.birthdate).getTime();
-  //   values.birthdate = birthdate
-  //   console.log(values);
-  //   authorizedAPIs
-  //     .post("/employee/create", values)
-  //     .then((res) => {
-  //       dispatch(showAlert("this employee is add successfully", "success"));
-  //       resetForm();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  const dispatch = useDispatch();
+  const addEmployee = async (values , { resetForm }) => {
+    authorizedAPIs
+      .post("/employee/new", values)
+      .then((res) => {
+        console.log({res});
+        dispatch(showAlert("this employee is add successfully", "success"));
+        resetForm();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <>
       <OCForm
-        // handleSubmit={addEmployee}
+        handleSubmit={addEmployee}
         inputsProps={inputs}
         title="Add employee "
         submitLabel="Add"

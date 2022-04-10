@@ -2,6 +2,10 @@ import EnhancedTable from "../../components/Table/table";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import avatarImage from "../../assets/avatar.jpg";
+import { useEffect, useState } from "react";
+import { authorizedAPIs } from "../../API/axiosSetup";
+import { showAlert } from "../../Redux/actions/viewAlert";
+import { useDispatch } from "react-redux";
 
 
 const intialHeadCells = [
@@ -24,41 +28,52 @@ const intialHeadCells = [
   },
 ];
 
-// const employees = [
-//   {
-//     _id: 1,
-//     personalPicture: avatarImage,
-//     firstName: "rania",
-//     lastName: "kamel",
-//     jobTitle: "front end",
-//   },
-//   {
-//     _id: 2,
-//     personalPicture: avatarImage,
-//     firstName: "ishak",
-//     lastName: "saad",
-//     jobTitle: "full stak",
-//   },
-// ];
+
 
 export default function Employee() {
-  employees.forEach((e) => (e.fullName = e.firstName + " " + e.lastName));
+  const [employees, setEmployees] = useState([]);
+  const dispatch = useDispatch();
 
-  
+  const handleDelete = async (arr) => {
+    await authorizedAPIs
+      .delete(`/employee/delete/${arr}`)
+      .then((res) => {
+        dispatch(showAlert("deleted successfully ", "success"));
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+ // console.log({ employees });
+  useEffect(() => {
+    authorizedAPIs
+      .get("/employee/showMany/100")
+      .then((res) => {
+        console.log({res});
+        const employeesUnmergedNames = [...res.data.result];
+        employeesUnmergedNames.forEach(
+          (employee) =>
+            (employee.fullName = employee.firstName + " " + employee.lastName)
+        );
+        setEmployees(employeesUnmergedNames);
+      })
+     
+  }, []);
 
   return (
     <div>
       <Button variant="contained" component={Link} to="/employee/add-employee">
         Add employee
       </Button>
-
-      <EnhancedTable
-        withEdit
-        // handleDeleteAPI={handleDelete}
-        initialRows={employees}
-        headCells={intialHeadCells}
-        path={"/employee/"}
-      />
+    
+        <EnhancedTable
+          withEdit
+          handleDeleteAPI={handleDelete}
+          initialRows={employees}
+          headCells={intialHeadCells}
+          path={"/employee/"}
+        />
+      
     </div>
   );
 }
