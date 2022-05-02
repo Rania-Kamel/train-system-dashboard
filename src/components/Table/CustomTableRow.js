@@ -23,7 +23,6 @@ export default function CustomTableRow({
     setRowValues({ ...row });
   }, [row]);
 
-  console.log(row);
 
   return (
     <TableRow>

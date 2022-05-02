@@ -25,6 +25,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 import Cookies from "js-cookie";
 import { useHistory } from "react-router";
+import TrainIcon from '@mui/icons-material/Train';
 
 const drawerWidth = 240;
 
@@ -112,7 +113,7 @@ export default function PersistentDrawerLeft(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Oriented Coders Dashboard
+            Train System Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
@@ -141,7 +142,8 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           <SideNaveLink to="/" text=" Home" IconComponent={HomeIcon} />
-         
+          <SideNaveLink to="/news" text="news" IconComponent={ReceiptIcon} />
+          <SideNaveLink to="/train" text="train" IconComponent={TrainIcon} />
           
           <SideNaveLink
             to="/employee"

@@ -18,12 +18,11 @@ const NewsArticle = ({
   title,
   caption,
   description,
-  cover,
+  image,
   postDate,
-  endDate,
-  createdBy,
+  postedBy,
   editedBy,
-  _id = "1",
+  _id ,
   handleDelete,
 }) => {
   return (
@@ -59,11 +58,10 @@ const NewsArticle = ({
           </Button>
         </Stack>
 
-        <img width="200" alt="news cover" src={cover} />
+        <img width="200" alt="news image" src={image} />
         <Typography>
           {" "}
-          Post date: {new Date(postDate).toDateString()} - End date:{" "}
-          {new Date(endDate).toDateString()}
+          Post date: {new Date(postDate).toDateString()} 
         </Typography>
 
         <Typography variant="h5">Title: {title}</Typography>
@@ -71,14 +69,14 @@ const NewsArticle = ({
         <Paragraph paragraphTitle="Caption" paragraphText={caption} />
         <Paragraph paragraphTitle="Description" paragraphText={description} />
         {/* created by section it consistes of avatar, employee name, and creating date which is the same as post date */}
-        <Typography variant="h6">Created By: </Typography>
+        <Typography variant="h6">posted By: </Typography>
         <CardHeader
           avatar={
-            <Avatar alt={createdBy.employeeName} src={createdBy.avatar}>
-              {createdBy.employeeName[0]}
+            <Avatar alt={postedBy.firstName} src={postedBy.personalPicture}>
+              {postedBy.firstName[0]}
             </Avatar>
           }
-          title={createdBy.employeeName}
+          title={postedBy.firstName}
           subheader={new Date(postDate).toDateString()}
         />
         {/* edited by section it consistes of avatar, employee name, and editing date */}

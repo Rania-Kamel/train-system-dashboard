@@ -13,15 +13,13 @@ import { Link } from "react-router-dom";
 function NewsCard({
   fullWidth,
   noOptions,
-  coverImage,
+  image,
   title,
   caption,
   postDate,
-  endDate,
-  id,
+  _id,
 }) {
   const postDateInString = new Date(postDate);
-  const endDateInString = new Date(endDate);
   const Component = noOptions ? Card : Link;
   return (
     <Card
@@ -31,13 +29,13 @@ function NewsCard({
         textDecoration: "none",
       }}
       component={Component}
-      to={"/news/" + id}
+      to={"/news/" + _id}
     >
       <CardMedia
         component="img"
         alt="green iguana"
         height="100"
-        image={coverImage}
+        image={image}
       />
       <CardContent>
         <Typography gutterBottom variant="h6" component="div">
@@ -50,10 +48,7 @@ function NewsCard({
         <CardHeader
           subheader={
             "post date : " +
-            postDateInString.toDateString() +
-            "\n" +
-            "end date : " +
-            endDateInString.toDateString()
+            postDateInString.toDateString() 
           }
         />
       )}

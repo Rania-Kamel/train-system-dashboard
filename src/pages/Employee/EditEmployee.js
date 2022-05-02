@@ -1,7 +1,11 @@
-import OCForm from "../../components/OCForm";
+import TrainForm from "../../components/TrainForm";
 import * as Yup from "yup";
 import { useParams } from "react-router";
-import React, { useState } from 'react';
+import React from 'react';
+import { useEffect, useState } from "react";
+import { authorizedAPIs } from "../../API/axiosSetup";
+import { showAlert } from "../../Redux/actions/viewAlert";
+import { useDispatch } from "react-redux";
 
 
 const inputs = [
@@ -40,13 +44,7 @@ const inputs = [
         label: "nationalIdNumber",
         type: "text",
       },
-      {
-        id: "nationalId",
-        validation: Yup.mixed().required("nationalId is required"),
-        initialValue: "",
-        label: "nationalId",
-        type: "file",
-      },
+  
       {
         id: "personalPicture",
         validation: Yup.mixed().required("personalPicture is required"),
@@ -108,61 +106,59 @@ const inputs = [
 ];
 
 export default function EditEmployee() {
-  // const { id } = useParams();
+  const { id } = useParams();
   const [values, setValues] = useState();
   const [inputsData, setInputsData] = useState([...inputs]);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   authorizedAPIs
-  //     .get(`/employee/getOne/${id}`)
-  //     .then((res) => {
-  //      console.log({res});
+  useEffect(() => {
+    authorizedAPIs
+      .get(`/employee/showOne/${id}`)
+      .then((res) => {
+       console.log({res});
         
-  //      // console.log(res.data.getOneModel.endDate);
-  //       var date = new Date(res.data.getOneModel.birthdate)
-  //         .toISOString()
-  //         .substr(0, 10);
-  //       res.data.getOneModel.birthdate = date;
+     
 
-  //       setValues(res.data.getOneModel);
+        // setValues(res.data.result);
+        // console.log(values);
        
-  //       inputs.forEach(
-  //         (item) => (item.initialValue = res.data.getOneModel[item.id])
-  //       );
-  //       setInputsData(inputs);
+        inputs.forEach(
+          (employee) => (employee.initialValue = res.data.result[employee.id])
+        );
+        setInputsData(inputs);
+        console.log(inputsData);
 
         
         
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // }, [ inputsData]);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, [ inputsData]);
 
-  // const handleUpdate = async (values , { resetForm }) => {
+  const handleUpdate = async (values , { resetForm }) => {
    
-  //   const birthdate = new Date(values.birthdate).getTime();
-  //   values.birthdate = birthdate
-  //   console.log(values);
-  //   await authorizedAPIs
-  //     .put("/employee/edit",values)
-  //     .then((res) => {
-  //       console.log(res);
-  //       dispatch(showAlert("this news is updated successfully", "success"));
-  //        resetForm();
+    const birthdate = new Date(values.birthdate).getTime();
+    values.birthdate = birthdate
+    console.log(values);
+    await authorizedAPIs
+      .put("/employee/edit",values)
+      .then((res) => {
+        console.log(res);
+        dispatch(showAlert("this news is updated successfully", "success"));
+         resetForm();
 
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // };
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   
 
   return(
-      <OCForm
-      //  handleSubmit={handleUpdate}
+      <TrainForm
+       handleSubmit={handleUpdate}
         inputsProps={inputsData}
         title="Edit employee "
         submitLabel="Edit employee"

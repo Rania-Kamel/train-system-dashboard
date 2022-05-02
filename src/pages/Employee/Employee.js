@@ -49,7 +49,6 @@ export default function Employee() {
     authorizedAPIs
       .get("/employee/showMany/100")
       .then((res) => {
-        console.log({res});
         const employeesUnmergedNames = [...res.data.result];
         employeesUnmergedNames.forEach(
           (employee) =>

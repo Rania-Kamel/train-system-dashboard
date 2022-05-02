@@ -51,7 +51,7 @@ export default function OneEmployee() {
       .get(`/employee/showOne/${id}`)
       .then((res) => {
         console.log(res);
-        setEmployee(res.data.getOneModel);
+        setEmployee(res.data.result);
       })
      
   }, []);

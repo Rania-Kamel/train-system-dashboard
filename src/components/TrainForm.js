@@ -2,7 +2,6 @@
 import React from "react";
 
 //Box Box Box ---
-import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -37,16 +36,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OCForm({
+export default function TrainForm({
   inputsProps,
   handleSubmit,
   title,
   submitLabel,
+  children
 }) {
   const classes = useStyles();
+
   const validationSchema = {};
   const initialValues = {};
-
   inputsProps.forEach(({ id, validation, initialValue }) => {
     validationSchema[id] = validation;
     initialValues[id] = initialValue;
@@ -61,8 +61,9 @@ export default function OCForm({
         </Typography>
         <Formik
           initialValues={initialValues}
+          enableReinitialize
           validationSchema={Yup.object().shape(validationSchema)}
-          onSubmit={handleSubmit}
+          onSubmit={(values, resetForm) => handleSubmit(values, resetForm)}
         >
           {({
             errors,
@@ -70,10 +71,20 @@ export default function OCForm({
             handleChange,
             handleSubmit,
             isSubmitting,
+            setFieldValue,
             touched,
+            resetForm,
             values,
           }) => (
-            <form className={classes.form} onSubmit={handleSubmit}>
+            <form
+              className={classes.form}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+                // resetForm()
+              }}
+            >
+               {children}
               <div
                 className={classes.inputsContainer}
                 style={{

@@ -1,4 +1,4 @@
-import OCForm from '../../components/OCForm'
+import TrainForm from '../../components/TrainForm'
 import * as Yup from "yup";
 import { authorizedAPIs } from "../../API/axiosSetup";
 import { showAlert } from "../../Redux/actions/viewAlert";
@@ -43,13 +43,7 @@ const inputs = [
     label: "nationalIdNumber",
     type: "text",
   },
-  {
-    id: "nationalId",
-    validation: Yup.mixed().required("nationalId is required"),
-    initialValue: "",
-    label: "nationalId",
-    type: "file",
-  },
+ 
   {
     id: "personalPicture",
     validation: Yup.mixed().required("personalPicture is required"),
@@ -128,7 +122,7 @@ export default function AddEmployee() {
   };
   return (
     <>
-      <OCForm
+      <TrainForm
         handleSubmit={addEmployee}
         inputsProps={inputs}
         title="Add employee "

@@ -10,7 +10,7 @@ const authinticationAPIs = axios.create({
   },
 });
 
-const token = Cookies.get(process.env.REACT_APP_TOKEN_NAME);
+// const token = Cookies.get(process.env.REACT_APP_TOKEN_NAME);
 
 const authorizedAPIs = axios.create({
   baseURL: `${process.env.REACT_APP_MY_BACKEND_HOST}`,
@@ -18,7 +18,7 @@ const authorizedAPIs = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-    authorization: `123=${token}`,
+    authorization: `123=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjU0NjYzYTJhOWZmN2VlZjAxMTYxMWIiLCJlbWFpbCI6ImFuLnJvb29vZkBnbWFpbC5jb20iLCJpYXQiOjE2NTEzNDIyODF9.qQmfopkCzWSSHHbQh5QHTzwFITVbh6qpadYsc-UoRTw`,
   },
 });
 
