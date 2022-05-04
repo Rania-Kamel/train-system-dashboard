@@ -6,6 +6,9 @@ import { createStore } from 'redux'
 import rootReducers from './Redux/reducers/index'
 import ViewAlert from './components/ViewAlert';
 
+
+
+
 // STORE
 
 const store = createStore(
@@ -14,8 +17,10 @@ const store = createStore(
 );
 
 
+
 function App() {
   return (
+   
     <Provider store={store}>
     <BrowserRouter>
       <div className="App">
@@ -24,6 +29,7 @@ function App() {
       </div>
     </BrowserRouter>
     </Provider>
+
   );
 }
 
